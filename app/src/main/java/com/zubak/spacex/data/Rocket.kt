@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName
 
 data class Rocket(
     @SerializedName("fairings")
-    val fairings: Fairings,
+    val fairings: Fairings?,
     @SerializedName("first_stage")
-    val firstStage: FirstStage,
+    val firstStage: FirstStage?,
     @SerializedName("rocket_id")
-    val rocketId: String,
+    val rocketId: String?,
     @SerializedName("rocket_name")
-    val rocketName: String,
+    val rocketName: String?,
     @SerializedName("rocket_type")
-    val rocketType: String,
+    val rocketType: String?,
     @SerializedName("second_stage")
-    val secondStage: SecondStage
+    val secondStage: SecondStage?
 )

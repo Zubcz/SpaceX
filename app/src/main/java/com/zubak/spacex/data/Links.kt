@@ -5,27 +5,27 @@ import com.google.gson.annotations.SerializedName
 
 data class Links(
     @SerializedName("article_link")
-    val articleLink: String,
+    val articleLink: Any?,
     @SerializedName("flickr_images")
-    val flickrImages: List<String>,
+    val flickrImages: List<Any>?,
     @SerializedName("mission_patch")
-    val missionPatch: String,
+    val missionPatch: Any?,
     @SerializedName("mission_patch_small")
-    val missionPatchSmall: String,
+    val missionPatchSmall: Any?,
     @SerializedName("presskit")
-    val presskit: String,
+    val presskit: Any?,
     @SerializedName("reddit_campaign")
-    val redditCampaign: String,
+    val redditCampaign: Any?,
     @SerializedName("reddit_launch")
-    val redditLaunch: String,
+    val redditLaunch: Any?,
     @SerializedName("reddit_media")
-    val redditMedia: String,
+    val redditMedia: Any?,
     @SerializedName("reddit_recovery")
-    val redditRecovery: Any,
+    val redditRecovery: Any?,
     @SerializedName("video_link")
-    val videoLink: String,
+    val videoLink: Any?,
     @SerializedName("wikipedia")
-    val wikipedia: String,
+    val wikipedia: Any?,
     @SerializedName("youtube_id")
-    val youtubeId: String
+    val youtubeId: Any?
 )

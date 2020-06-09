@@ -5,23 +5,23 @@ import com.google.gson.annotations.SerializedName
 
 data class Core(
     @SerializedName("block")
-    val block: Int,
+    val block: Any?,
     @SerializedName("core_serial")
-    val coreSerial: String,
+    val coreSerial: Any?,
     @SerializedName("flight")
-    val flight: Int,
+    val flight: Any?,
     @SerializedName("gridfins")
-    val gridfins: Boolean,
+    val gridfins: Any?,
     @SerializedName("land_success")
-    val landSuccess: Boolean,
+    val landSuccess: Any?,
     @SerializedName("landing_intent")
-    val landingIntent: Boolean,
+    val landingIntent: Any?,
     @SerializedName("landing_type")
-    val landingType: String,
+    val landingType: Any?,
     @SerializedName("landing_vehicle")
-    val landingVehicle: String,
+    val landingVehicle: Any?,
     @SerializedName("legs")
-    val legs: Boolean,
+    val legs: Any?,
     @SerializedName("reused")
-    val reused: Boolean
+    val reused: Any?
 )

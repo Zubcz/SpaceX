@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SecondStage(
     @SerializedName("block")
-    val block: Int,
+    val block: Any?,
     @SerializedName("payloads")
-    val payloads: List<Payload>
+    val payloads: List<Payload>?
 )

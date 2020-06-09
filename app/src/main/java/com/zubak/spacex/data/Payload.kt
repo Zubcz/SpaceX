@@ -5,25 +5,25 @@ import com.google.gson.annotations.SerializedName
 
 data class Payload(
     @SerializedName("customers")
-    val customers: List<String>,
+    val customers: List<String>?,
     @SerializedName("manufacturer")
-    val manufacturer: String,
+    val manufacturer: String?,
     @SerializedName("nationality")
-    val nationality: String,
+    val nationality: String?,
     @SerializedName("norad_id")
-    val noradId: List<Int>,
+    val noradId: List<Any>?,
     @SerializedName("orbit")
-    val orbit: String,
+    val orbit: String?,
     @SerializedName("orbit_params")
-    val orbitParams: OrbitParams,
+    val orbitParams: OrbitParams?,
     @SerializedName("payload_id")
-    val payloadId: String,
+    val payloadId: String?,
     @SerializedName("payload_mass_kg")
-    val payloadMassKg: Int,
+    val payloadMassKg: Any?,
     @SerializedName("payload_mass_lbs")
-    val payloadMassLbs: Int,
+    val payloadMassLbs: Any?,
     @SerializedName("payload_type")
-    val payloadType: String,
+    val payloadType: String?,
     @SerializedName("reused")
-    val reused: Boolean
+    val reused: Boolean?
 )
