@@ -10,4 +10,8 @@
     <string name="menu_home">Launches</string>
     <string name="menu_gallery">Past Launches</string>
     <string name="menu_slideshow">Upcoming Launches</string>
+
+    <string name="preferences">preferences</string>
+
+    <string name="no_internet">No internet connection</string>
 </resources>

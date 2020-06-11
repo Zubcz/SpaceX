@@ -2,6 +2,8 @@ package com.zubak.spacex.core
 
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.zubak.spacex.R
@@ -12,16 +14,15 @@ import com.zubak.spacex.service.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.Reader
+import java.io.*
 
 
 class DataManager {
     private var apiInterface = RetrofitService().getClient().create(LaunchApi::class.java)
 
-    fun getLaunches(launchesType: LaunchesType,
-                    launches: MutableLiveData<Launches>
+    fun getLaunches(launchesType: LaunchesType
+                    ,context: Context
+                    ,launches: MutableLiveData<Launches>
     ) {
         val call: Call<Launches>? = when(launchesType) {
             LaunchesType.ALL -> apiInterface.getAllLaunches()
@@ -35,24 +36,75 @@ class DataManager {
                 response: Response<Launches>
             ) {
                 launches.value = response.body()
+                val dataHash = launches.value.toString().sha1()
+                if(dataHash != getStoredDataHash(launchesType, context)) {
+                    storeData(launchesType, context, launches)
+                    storeDataHash(launchesType, context, dataHash)
+                }
             }
 
             override fun onFailure(call: Call<Launches>, t: Throwable?) {
                 call.cancel()
+                val dataHash = launches.value.toString().sha1()
+                if(dataHash != getStoredDataHash(launchesType, context)) {
+                    launches.value = getStoredData(launchesType, context)
+                }
+                Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
             }
         })
     }
 
-    fun getLaunchesFromCache(launchesType: LaunchesType, context: Context): Launches {
-        val file: InputStream = context.resources.openRawResource(
-            when(launchesType) {
-            LaunchesType.ALL -> R.raw.alllaunches
-            LaunchesType.PAST -> R.raw.pastlaunches
-            LaunchesType.UPCOMING -> R.raw.upcominglaunches
-        })
-        val reader : Reader = InputStreamReader(file)
+    private fun storeData(launchesType: LaunchesType
+                          ,context: Context
+                          ,launches: MutableLiveData<Launches>
+    ) {
+        try {
+            val outputStreamWriter = OutputStreamWriter(
+                context.openFileOutput(
+                    "$launchesType.json"
+                    ,Context.MODE_PRIVATE
+                )
+            )
+            outputStreamWriter.write(Gson().toJson(launches.value))
+            outputStreamWriter.close()
+        } catch (e: IOException) {
+            Log.e("Exception", "File write failed: $e")
+        }
+    }
 
-        return Gson().fromJson(reader, Launches::class.java) ?: Launches()
+    fun getStoredData(launchesType: LaunchesType, context: Context): Launches {
+        var launches: Launches? = null
+        try {
+            val inputStream: InputStream? = context.openFileInput("$launchesType.json")
+            if (inputStream != null) {
+                val inputStreamReader = InputStreamReader(inputStream)
+                launches = Gson().fromJson(inputStreamReader, Launches::class.java)
+            }
+        } catch (e: FileNotFoundException) {
+            Log.e(DataManager::class.java.toString(), "File not found: $e")
+        } catch (e: IOException) {
+            Log.e(DataManager::class.java.toString(), "Can not read file: $e")
+        }
+        return launches ?: Launches()
+    }
+
+    private fun storeDataHash(launchesType: LaunchesType
+                              ,context: Context
+                              ,hash: String) {
+        val preferencesName = context.resources.getString(R.string.preferences)
+        context
+            .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+            .edit()
+            .putString(launchesType.toString(), "value")
+            .apply()
+    }
+
+    private fun getStoredDataHash(launchesType: LaunchesType
+                            ,context: Context) : String {
+        val preferencesName = context.resources.getString(R.string.preferences)
+        return context
+            .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+            .getString(launchesType.toString(), "") ?: ""
     }
 
 }
