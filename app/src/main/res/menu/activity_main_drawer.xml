@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/all_launches"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_all_launches" />
+            android:icon="@drawable/ic_all_launches"
+            android:title="@string/menu_all_launches"
+            app:iconTintMode="src_atop" />
         <item
             android:id="@+id/past_launches"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_past_launches" />
+            android:icon="@drawable/ic_past_launches"
+            android:title="@string/menu_past_launches"
+            app:iconTintMode="src_atop" />
         <item
             android:id="@+id/upcoming_launches"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_upcoming_launches" />
+            android:icon="@drawable/ic_upcoming_launches"
+            android:title="@string/menu_upcoming_launches"
+            app:iconTintMode="src_atop" />
     </group>
 </menu>

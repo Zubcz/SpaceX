@@ -4,4 +4,5 @@
     <color name="silver_gray">#C0C0C0</color>
     <color name="dark_gray_background">#505050</color>
     <color name="dark_gray_card_background">#2C2C2C</color>
+    <color name="transparent">#00000000</color>
 </resources>
