@@ -17,8 +17,8 @@ class RetrofitService {
         val client = OkHttpClient
             .Builder()
             .addInterceptor(interceptor)
-            .readTimeout(3, TimeUnit.SECONDS)
-            .connectTimeout(3, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
             .build()
         retrofit = Retrofit.Builder()
             .baseUrl("https://api.spacexdata.com/v3/")
