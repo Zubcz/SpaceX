@@ -1,4 +1,4 @@
-package com.zubak.spacex.ui.home
+package com.zubak.spacex.ui.launches
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import com.zubak.spacex.api.LaunchesType
 import com.zubak.spacex.core.DataManager
 import com.zubak.spacex.data.Launches
 
-class AllLaunchesViewModel(
+class LaunchesViewModel(
     private val context: Context,
     private val launchesType: LaunchesType
 ) : ViewModel() {

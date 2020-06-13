@@ -1,6 +1,7 @@
-package com.zubak.spacex.ui.home
+package com.zubak.spacex.ui.launches
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,38 +15,52 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.zubak.spacex.R
 import com.zubak.spacex.adapter.LaunchAdapter
 import com.zubak.spacex.api.LaunchesType
+import com.zubak.spacex.core.TAG
 import com.zubak.spacex.data.Launches
 
 
-class AllLaunchesFragment : Fragment(), LifecycleOwner {
+class LaunchesFragment : Fragment(),
+    LifecycleOwner {
 
-    private lateinit var allLaunchesViewModel: AllLaunchesViewModel
+    private lateinit var launchesViewModel: LaunchesViewModel
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: LaunchAdapter
+    private lateinit var launchesType: LaunchesType
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        launchesType =
+            LaunchesType.valueOf(
+                arguments?.getString(getString(R.string.launches_type_bundle))
+                    ?: LaunchesType.ALL.name
+            )
+        Log.e(TAG, launchesType.name)
+        retainInstance = true
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val vmFactory = AllLaunchesViewModelFactory(context, LaunchesType.ALL)
-        allLaunchesViewModel = ViewModelProviders
+        val vmFactory = LaunchesViewModelFactory(context, launchesType)
+        launchesViewModel = ViewModelProviders
             .of(this, vmFactory)
-            .get(AllLaunchesViewModel::class.java)
+            .get(LaunchesViewModel::class.java)
 
-        val root = inflater.inflate(R.layout.fragment_all_launches, container, false)
+        val root = inflater.inflate(R.layout.fragment_launches, container, false)
 
         swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_container)
         swipeRefreshLayout.isRefreshing = true
         swipeRefreshLayout.setOnRefreshListener {
-            allLaunchesViewModel.refreshLaunches()
+            launchesViewModel.refreshLaunches()
         }
 
-        adapter = LaunchAdapter(allLaunchesViewModel.launches.value ?: Launches(), context)
+        adapter = LaunchAdapter(launchesViewModel.launches.value ?: Launches(), context)
 
-        allLaunchesViewModel.launches.observe(viewLifecycleOwner, Observer {
-            adapter.launches = allLaunchesViewModel.launches.value ?: Launches()
+        launchesViewModel.launches.observe(viewLifecycleOwner, Observer {
+            adapter.launches = launchesViewModel.launches.value ?: Launches()
             adapter.notifyDataSetChanged()
             swipeRefreshLayout.isRefreshing = false
         })

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_gray_background"
+    android:scrollbars="vertical"
+    tools:context=".ui.launchDetail.LaunchDetailFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:background="@drawable/card_shape">
+
+            <TextView
+                android:id="@+id/mission_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="?android:attr/textColorPrimaryInverse"
+                android:textSize="28sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Mission name" />
+
+            <ImageView
+                android:id="@+id/launch_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/launch_image"
+                app:layout_constraintTop_toBottomOf="@id/mission_name"
+                tools:src="@mipmap/rocket_holder" />
+
+            <TextView
+                android:id="@+id/launch_rocket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:ellipsize="marquee"
+                android:maxLines="2"
+                android:paddingTop="4dp"
+                android:singleLine="false"
+                android:textColor="?android:attr/textColorSecondaryInverse"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/launch_image"
+                tools:text="@string/launch_vehicle" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:ellipsize="marquee"
+                android:gravity="start"
+                android:maxLines="3"
+                android:padding="2dp"
+                android:singleLine="false"
+                android:textColor="?android:attr/textColorSecondaryInverse"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/launch_rocket"
+                tools:text="@string/launch_location" />
+
+            <TextView
+                android:id="@+id/launch_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="marquee"
+                android:gravity="start"
+                android:padding="2dp"
+                android:textColor="?android:attr/textColorSecondaryInverse"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/location"
+                tools:text="@string/launch_time" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

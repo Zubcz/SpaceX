@@ -42,7 +42,8 @@
     <ImageView
         android:id="@+id/image_launch"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:contentDescription="@string/launch_image" />
 
     <TextView
         android:id="@+id/widget_launch_rocket"

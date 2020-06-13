@@ -28,6 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:rippleColor="@color/dark_gray_card_background"
+        app:borderWidth="1dp"
+        android:elevation="0dp"
+        app:backgroundTint="@color/dark_gray_background"
+        android:backgroundTint="@color/dark_gray_card_background"
+        app:srcCompat="@android:drawable/ic_menu_preferences" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

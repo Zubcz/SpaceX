@@ -1,11 +1,11 @@
-package com.zubak.spacex.ui.home
+package com.zubak.spacex.ui.launches
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zubak.spacex.api.LaunchesType
 
-class AllLaunchesViewModelFactory(
+class LaunchesViewModelFactory(
     private val context: Context?,
     private val launchesType: LaunchesType
 ) : ViewModelProvider.Factory {
