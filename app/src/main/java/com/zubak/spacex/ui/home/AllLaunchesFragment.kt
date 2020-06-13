@@ -42,7 +42,7 @@ class AllLaunchesFragment : Fragment(), LifecycleOwner {
             allLaunchesViewModel.refreshLaunches()
         }
 
-        adapter = LaunchAdapter(allLaunchesViewModel.launches.value ?: Launches())
+        adapter = LaunchAdapter(allLaunchesViewModel.launches.value ?: Launches(), context)
 
         allLaunchesViewModel.launches.observe(viewLifecycleOwner, Observer {
             adapter.launches = allLaunchesViewModel.launches.value ?: Launches()
