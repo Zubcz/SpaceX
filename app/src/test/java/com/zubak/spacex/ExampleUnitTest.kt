@@ -1,8 +1,8 @@
 package com.zubak.spacex
 
+import com.zubak.spacex.ui.filters.FiltersFragment
+import kotlinx.android.synthetic.main.fragment_filters.*
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,7 +11,10 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun onlyOneFilterSelected_isCorrect() {
+        val filters = FiltersFragment()
+        filters.mission_name_checkbox.isChecked = true
+        filters.rocket_name_checkbox.isChecked = true
+        assert(!filters.mission_name_checkbox.isChecked)
     }
 }
