@@ -1,6 +1,5 @@
 package com.zubak.spacex
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,8 +14,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.zubak.spacex.api.LaunchesType
+import com.zubak.spacex.core.TAG
+import com.zubak.spacex.ui.filters.FiltersFragment
 import com.zubak.spacex.ui.launches.LaunchesFragment
 
 class MainActivity : AppCompatActivity() {
@@ -37,9 +37,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        fab.setOnClickListener {
+            val previousFragment =
+                supportFragmentManager.findFragmentByTag(FiltersFragment::class.simpleName)
+            if (previousFragment?.isVisible == true) {
+                supportFragmentManager.popBackStack()
+            } else {
+                showSettings()
+            }
         }
 
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -54,9 +59,12 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
+    private fun showSettings() {
+        val fragment = FiltersFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment, FiltersFragment::class.simpleName)
+            .addToBackStack(fragment.TAG)
+            .commit()
     }
 
     private fun setupDrawerToggle(): ActionBarDrawerToggle? {
@@ -114,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
-        return true
+        return false
     }
 
     override fun onSupportNavigateUp(): Boolean {

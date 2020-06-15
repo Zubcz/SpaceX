@@ -34,8 +34,12 @@ class LaunchHolder(private val view: View) : RecyclerView.ViewHolder(view), View
             Log.e(TAG, f!!.TAG)
             launch?.let {
                 activity.supportFragmentManager.beginTransaction()
-                    .add(R.id.nav_host_fragment, LaunchDetailFragment(launch!!))
-                    .addToBackStack(LaunchesFragment::TAG.name).commit();
+                    .add(
+                        R.id.nav_host_fragment,
+                        LaunchDetailFragment(launch!!),
+                        LaunchesFragment::class.simpleName
+                    )
+                    .addToBackStack(LaunchesFragment::class.simpleName).commit();
             }
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to get the fragment manager")

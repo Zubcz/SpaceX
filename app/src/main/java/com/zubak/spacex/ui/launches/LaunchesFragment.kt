@@ -1,7 +1,6 @@
 package com.zubak.spacex.ui.launches
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.zubak.spacex.R
 import com.zubak.spacex.adapter.LaunchAdapter
 import com.zubak.spacex.api.LaunchesType
-import com.zubak.spacex.core.TAG
+import com.zubak.spacex.core.DataManager
+import com.zubak.spacex.data.Launch
 import com.zubak.spacex.data.Launches
+import com.zubak.spacex.ui.filters.Filters
 
 
 class LaunchesFragment : Fragment(),
@@ -35,7 +36,6 @@ class LaunchesFragment : Fragment(),
                 arguments?.getString(getString(R.string.launches_type_bundle))
                     ?: LaunchesType.ALL.name
             )
-        Log.e(TAG, launchesType.name)
         retainInstance = true
     }
 
@@ -61,6 +61,7 @@ class LaunchesFragment : Fragment(),
 
         launchesViewModel.launches.observe(viewLifecycleOwner, Observer {
             adapter.launches = launchesViewModel.launches.value ?: Launches()
+            sortLaunches(adapter.launches)
             adapter.notifyDataSetChanged()
             swipeRefreshLayout.isRefreshing = false
         })
@@ -69,7 +70,24 @@ class LaunchesFragment : Fragment(),
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
+
+        requireActivity().supportFragmentManager.addOnBackStackChangedListener {
+            sortLaunches(adapter.launches)
+            adapter.notifyDataSetChanged()
+        }
+
         return root
+    }
+
+    private fun sortLaunches(launches: Launches) {
+        launches.sortBy { launch: Launch ->
+            context?.let {
+                when (DataManager().getFilter(it)) {
+                    Filters.MISSION_NAME -> launch.missionName
+                    Filters.ROCKET_NAME -> launch.rocket?.rocketName
+                }
+            }
+        }
     }
 }
 

@@ -11,6 +11,7 @@ import com.zubak.spacex.api.LaunchApi
 import com.zubak.spacex.api.LaunchesType
 import com.zubak.spacex.data.Launches
 import com.zubak.spacex.service.RetrofitService
+import com.zubak.spacex.ui.filters.Filters
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,11 +21,12 @@ import java.io.*
 class DataManager {
     private var apiInterface = RetrofitService().getClient().create(LaunchApi::class.java)
 
-    fun getLaunches(launchesType: LaunchesType
-                    ,context: Context
-                    ,launches: MutableLiveData<Launches>
+    fun getLaunches(
+        launchesType: LaunchesType
+        , context: Context
+        , launches: MutableLiveData<Launches>
     ) {
-        val call: Call<Launches>? = when(launchesType) {
+        val call: Call<Launches>? = when (launchesType) {
             LaunchesType.ALL -> apiInterface.getAllLaunches()
             LaunchesType.PAST -> apiInterface.getPastLaunches()
             LaunchesType.UPCOMING -> apiInterface.getUpcomingLaunches()
@@ -37,7 +39,7 @@ class DataManager {
             ) {
                 launches.value = response.body()
                 val dataHash = launches.value.toString().sha1()
-                if(dataHash != getStoredDataHash(launchesType, context)) {
+                if (dataHash != getStoredDataHash(launchesType, context)) {
                     storeData(launchesType, context, launches)
                     storeDataHash(launchesType, context, dataHash)
                 }
@@ -46,7 +48,7 @@ class DataManager {
             override fun onFailure(call: Call<Launches>, t: Throwable?) {
                 call.cancel()
                 val dataHash = launches.value.toString().sha1()
-                if(dataHash != getStoredDataHash(launchesType, context)) {
+                if (dataHash != getStoredDataHash(launchesType, context)) {
                     launches.value = getStoredData(launchesType, context)
                 }
                 Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show()
@@ -54,15 +56,16 @@ class DataManager {
         })
     }
 
-    private fun storeData(launchesType: LaunchesType
-                          ,context: Context
-                          ,launches: MutableLiveData<Launches>
+    private fun storeData(
+        launchesType: LaunchesType
+        , context: Context
+        , launches: MutableLiveData<Launches>
     ) {
         try {
             val outputStreamWriter = OutputStreamWriter(
                 context.openFileOutput(
                     "$launchesType.json"
-                    ,Context.MODE_PRIVATE
+                    , Context.MODE_PRIVATE
                 )
             )
             outputStreamWriter.write(Gson().toJson(launches.value))
@@ -88,23 +91,46 @@ class DataManager {
         return launches ?: Launches()
     }
 
-    private fun storeDataHash(launchesType: LaunchesType
-                              ,context: Context
-                              ,hash: String) {
+    private fun storeDataHash(
+        launchesType: LaunchesType
+        , context: Context
+        , hash: String
+    ) {
         val preferencesName = context.resources.getString(R.string.preferences)
         context
             .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
             .edit()
-            .putString(launchesType.toString(), "value")
+            .putString(launchesType.toString(), hash)
             .apply()
     }
 
-    private fun getStoredDataHash(launchesType: LaunchesType
-                            ,context: Context) : String {
+    private fun getStoredDataHash(
+        launchesType: LaunchesType
+        , context: Context
+    ): String {
         val preferencesName = context.resources.getString(R.string.preferences)
         return context
             .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
             .getString(launchesType.toString(), "") ?: ""
+    }
+
+    fun storeFilter(filters: Filters, context: Context) {
+        val preferencesName = context.resources.getString(R.string.preferences)
+        context
+            .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+            .edit()
+            .putString(context.getString(R.string.filters_preferences), filters.toString())
+            .apply()
+    }
+
+    fun getFilter(context: Context): Filters {
+        val preferencesName = context.resources.getString(R.string.preferences)
+        return Filters.valueOf(
+            context
+                .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+                .getString(context.getString(R.string.filters_preferences), null)
+                ?: Filters.MISSION_NAME.name
+        )
     }
 
 }
