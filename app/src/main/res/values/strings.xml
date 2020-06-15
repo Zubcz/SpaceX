@@ -16,6 +16,7 @@
 
     <string name="preferences">preferences</string>
     <string name="filters_preferences">filter_preferences</string>
+    <string name="cache_first_preferences">cache_first_preferences</string>
     <string name="launches_type_bundle">launches type</string>
 
     <string name="no_internet">No internet connection</string>
@@ -28,4 +29,5 @@
     <string name="filters"><u>Filters</u></string>
     <string name="sort_by_date">Sort by rocket name</string>
     <string name="sort_by_mission_name">Sort by mission name</string>
+    <string name="data_from_cache_first">Show data from cache first</string>
 </resources>

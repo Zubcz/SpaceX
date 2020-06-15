@@ -31,6 +31,9 @@ class DataManager {
             LaunchesType.PAST -> apiInterface.getPastLaunches()
             LaunchesType.UPCOMING -> apiInterface.getUpcomingLaunches()
         }
+        if (cacheFirst(context)) {
+            launches.value = getStoredData(launchesType, context)
+        }
 
         call?.enqueue(object : Callback<Launches> {
             override fun onResponse(
@@ -131,6 +134,22 @@ class DataManager {
                 .getString(context.getString(R.string.filters_preferences), null)
                 ?: Filters.MISSION_NAME.name
         )
+    }
+
+    fun cacheFirst(context: Context): Boolean {
+        val preferencesName = context.resources.getString(R.string.preferences)
+        return context
+            .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+            .getBoolean(context.getString(R.string.cache_first_preferences), false)
+    }
+
+    fun setCacheFirst(context: Context, cacheFirst: Boolean) {
+        val preferencesName = context.resources.getString(R.string.preferences)
+        context
+            .getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+            .edit()
+            .putBoolean(context.getString(R.string.cache_first_preferences), cacheFirst)
+            .apply()
     }
 
 }
