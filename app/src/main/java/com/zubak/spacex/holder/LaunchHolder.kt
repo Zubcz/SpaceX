@@ -3,17 +3,15 @@ package com.zubak.spacex.holder
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.util.Log
+import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.zubak.spacex.R
-import com.zubak.spacex.core.TAG
 import com.zubak.spacex.data.Launch
 import com.zubak.spacex.ui.launchDetail.LaunchDetailFragment
-import com.zubak.spacex.ui.launches.LaunchesFragment
 import kotlinx.android.synthetic.main.launch_holder.view.*
 
 
@@ -27,24 +25,21 @@ class LaunchHolder(private val view: View) : RecyclerView.ViewHolder(view), View
     }
 
     override fun onClick(v: View?) {
-        try {
-            val activity = context as FragmentActivity
-            val f: Fragment? =
-                activity.supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-            Log.e(TAG, f!!.TAG)
-            launch?.let {
-                activity.supportFragmentManager.beginTransaction()
-                    .add(
-                        R.id.nav_host_fragment,
-                        LaunchDetailFragment(launch!!),
-                        LaunchesFragment::class.simpleName
-                    )
-                    .addToBackStack(LaunchesFragment::class.simpleName).commit();
-            }
-        } catch (e: ClassCastException) {
-            Log.e(TAG, "Unable to get the fragment manager")
+        val activity = context as FragmentActivity
+        val fragment = LaunchDetailFragment()
+        val args = Bundle()
+
+        args.putString(activity.getString(R.string.launch_detail_bundle), Gson().toJson(launch))
+        fragment.arguments = args
+
+        launch?.let {
+            activity.supportFragmentManager.beginTransaction()
+                .add(
+                    R.id.nav_host_fragment,
+                    fragment
+                )
+                .addToBackStack(fragment.tag).commit();
         }
-        Log.d(LaunchHolder::javaClass.toString(), "click on launch holder")
     }
 
     @SuppressLint("SetTextI18n")

@@ -18,6 +18,7 @@
     <string name="filters_preferences">filter_preferences</string>
     <string name="cache_first_preferences">cache_first_preferences</string>
     <string name="launches_type_bundle">launches type</string>
+    <string name="launch_detail_bundle">launch detail</string>
 
     <string name="no_internet">No internet connection</string>
     <string name="something_went_wrong">Something went wrong.</string>

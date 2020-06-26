@@ -10,10 +10,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.zubak.spacex.R
 import com.zubak.spacex.data.Launch
 
-class LaunchDetailFragment(private val launch: Launch) : Fragment() {
+class LaunchDetailFragment : Fragment() {
+
+    private lateinit var launch: Launch
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        launch = Gson().fromJson(
+            arguments?.getString(getString(R.string.launch_detail_bundle)) ?: "{}",
+            Launch::class.java
+        )
+        retainInstance = true
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
