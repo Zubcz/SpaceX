@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -26,6 +27,7 @@ class LaunchesFragment : Fragment(),
     private lateinit var launchesViewModel: LaunchesViewModel
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyPlaceholder: LinearLayout
     private lateinit var adapter: LaunchAdapter
     private lateinit var launchesType: LaunchesType
 
@@ -51,6 +53,9 @@ class LaunchesFragment : Fragment(),
 
         val root = inflater.inflate(R.layout.fragment_launches, container, false)
 
+        emptyPlaceholder = root.findViewById(R.id.empty_placeholder)
+        recyclerView = root.findViewById(R.id.allLaunches) as RecyclerView
+
         swipeRefreshLayout = root.findViewById(R.id.swipe_refresh_container)
         swipeRefreshLayout.isRefreshing = true
         swipeRefreshLayout.setOnRefreshListener {
@@ -61,12 +66,17 @@ class LaunchesFragment : Fragment(),
 
         launchesViewModel.launches.observe(viewLifecycleOwner, Observer {
             adapter.launches = launchesViewModel.launches.value ?: Launches()
+
+            with(adapter.launches.isEmpty()) {
+                emptyPlaceholder.visibility = if (this) View.VISIBLE else View.GONE
+                recyclerView.visibility = if (this) View.GONE else View.VISIBLE
+            }
+
             sortLaunches(adapter.launches)
             adapter.notifyDataSetChanged()
             swipeRefreshLayout.isRefreshing = false
         })
 
-        recyclerView = root.findViewById(R.id.allLaunches) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
