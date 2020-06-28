@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.zubak.spacex.R
+import com.zubak.spacex.core.timeParser
 import com.zubak.spacex.data.Launch
 import com.zubak.spacex.ui.launchDetail.LaunchDetailFragment
 import kotlinx.android.synthetic.main.launch_holder.view.*
@@ -48,7 +49,8 @@ class LaunchHolder(private val view: View) : RecyclerView.ViewHolder(view), View
         this.launch = launch
         view.widget_launch_mission.text = launch.missionName
         view.widget_launch_date.text =
-            context?.getText(R.string.launch_time).toString() + " " + launch.launchDateLocal
+            context?.getText(R.string.launch_time)
+                .toString() + " " + timeParser(launch.launchDateLocal ?: "")
         view.widget_launch_rocket.text =
             context?.getText(R.string.launch_vehicle).toString() + " " + launch.rocket?.rocketName
         view.widget_location.text =

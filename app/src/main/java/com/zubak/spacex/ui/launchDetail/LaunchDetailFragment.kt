@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.zubak.spacex.R
+import com.zubak.spacex.core.timeParser
 import com.zubak.spacex.data.Launch
 
 class LaunchDetailFragment : Fragment() {
@@ -45,7 +46,8 @@ class LaunchDetailFragment : Fragment() {
         launchRocket.text =
             context?.getText(R.string.launch_vehicle).toString() + " " + launch.rocket?.rocketName
         launchTime.text =
-            context?.getText(R.string.launch_time).toString() + " " + launch.launchDateLocal
+            context?.getText(R.string.launch_time)
+                .toString() + " " + timeParser(launch.launchDateLocal ?: "")
         launchSite.text = context?.getText(R.string.launch_location)
             .toString() + " " + launch.launchSite?.siteName
 

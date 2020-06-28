@@ -5,6 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import java.security.MessageDigest
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
@@ -24,3 +28,11 @@ val Any.TAG: String
         val tag = javaClass.simpleName
         return if (tag.length <= 23) tag else tag.substring(0, 23)
     }
+
+fun timeParser(timestamp: String): String {
+    val parseDF: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+    val parsedDate: Date = parseDF.parse(timestamp)?: Date()
+    val outputDF: DateFormat = SimpleDateFormat.getDateTimeInstance()
+
+    return outputDF.format(parsedDate)
+}
