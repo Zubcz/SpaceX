@@ -41,6 +41,7 @@ class LaunchDetailFragment : Fragment() {
         val launchRocket: TextView = root.findViewById(R.id.launch_rocket)
         val launchTime: TextView = root.findViewById(R.id.launch_date)
         val launchSite: TextView = root.findViewById(R.id.location)
+        val launchDetails: TextView = root.findViewById(R.id.launch_details)
 
         missionName.text = launch.missionName
         launchRocket.text =
@@ -50,6 +51,9 @@ class LaunchDetailFragment : Fragment() {
                 .toString() + " " + timeParser(launch.launchDateLocal ?: "")
         launchSite.text = context?.getText(R.string.launch_location)
             .toString() + " " + launch.launchSite?.siteName
+        launchDetails.text =
+            context?.getText(R.string.launch_details).toString() + " " + (launch.details
+                ?: context?.getText(R.string.no_info).toString())
 
         context?.let {
             if (launch.links?.flickrImages?.size ?: 0 > 0) {

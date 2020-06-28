@@ -22,11 +22,13 @@
 
     <string name="no_internet">No internet connection</string>
     <string name="something_went_wrong">Something went wrong.</string>
+    <string name="no_info">No information provided.</string>
 
     <string name="launch_vehicle">Vehicle:</string>
     <string name="launch_time">Time:</string>
     <string name="launch_location">Location:</string>
     <string name="launch_image">Launch image</string>
+    <string name="launch_details">Details:</string>
 
     <string name="filters"><u>Filters</u></string>
     <string name="sort_by_date">Sort by rocket name</string>

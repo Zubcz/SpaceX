@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:background="@drawable/card_shape">
+            android:background="@drawable/card_shape"
+            android:paddingBottom="12dp">
 
             <TextView
                 android:id="@+id/mission_name"
@@ -80,6 +81,20 @@
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/location"
                 tools:text="@string/launch_time" />
+
+            <TextView
+                android:id="@+id/launch_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="marquee"
+                android:gravity="start"
+                android:padding="2dp"
+                android:textColor="?android:attr/textColorSecondaryInverse"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/launch_date"
+                tools:text="@string/launch_details" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
