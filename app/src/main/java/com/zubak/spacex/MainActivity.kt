@@ -1,6 +1,7 @@
 package com.zubak.spacex
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -14,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.hypertrack.hyperlog.HyperLog
 import com.zubak.spacex.api.LaunchesType
 import com.zubak.spacex.core.TAG
 import com.zubak.spacex.ui.filters.FiltersFragment
@@ -58,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         setupDrawerContent(navView)
 
         navController = findNavController(R.id.nav_host_fragment)
+
+        HyperLog.initialize(this)
+        HyperLog.setLogLevel(Log.VERBOSE)
+        HyperLog.setURL("http://192.168.2.212:2222/gelf")
     }
 
     private fun showSettings() {

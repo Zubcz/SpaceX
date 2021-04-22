@@ -1,6 +1,7 @@
 package com.zubak.spacex.ui.launches
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.hypertrack.hyperlog.HLCallback
+import com.hypertrack.hyperlog.HyperLog
+import com.hypertrack.hyperlog.error.HLErrorResponse
 import com.zubak.spacex.R
 import com.zubak.spacex.adapter.LaunchAdapter
 import com.zubak.spacex.api.LaunchesType
@@ -86,6 +90,19 @@ class LaunchesFragment : Fragment(),
             adapter.notifyDataSetChanged()
         }
 
+
+        HyperLog.pushLogs(context, false, object: HLCallback() {
+
+            override fun onSuccess(response: Any?) {
+                Log.e("TAG", "sending successful")
+            }
+
+            override fun onError(HLErrorResponse: HLErrorResponse?) {
+                Log.e("TAG", "sending FAILED!!!!")
+                Log.e("TAG", HLErrorResponse?.errorCode.toString())
+            }
+        })
+        HyperLog.e("LaunchesFragment", "tried to push logs...")
         return root
     }
 
